@@ -6,7 +6,7 @@ import 'package:newstart/lab/getAvailableTime.dart';
 import 'package:newstart/store/addProduct.dart';
 import 'package:newstart/store/basket.dart';
 import 'package:newstart/store/productInfo.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../constant/appColor.dart';
 import '../main.dart';
@@ -59,35 +59,44 @@ class _GetStoreProductsState extends State<GetStoreProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(newLightBeige),
-      body: products.isEmpty
-          ? Text('No Products'.toUpperCase())
-          : Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Column(children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Store',
-                              style: TextStyle(
-                                  fontFamily: 'cookie',
-                                  color: Colors.black,
-                                  fontSize: 45)),
-                          IconButton(
-                              onPressed: () {
-                                Get.to(Basket());
-                              },
-                              icon: Icon(Icons.shopping_cart))
-                        ],
+      backgroundColor: Color(white),
+      body: Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, top: 10),
+                child: Text('University store',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 120, top: 10),
+                child: Divider(
+                  thickness: 1,
+                  color: Color(black),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              products.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 210),
+                      child: Center(
+                        child: Text('Empty',
+                            style: TextStyle(
+                                fontSize: 25, color: Colors.grey.shade700)),
                       ),
-                    ),
-                  ),
-                  Expanded(
+                    )
+                  : Expanded(
                       flex: 6,
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -118,10 +127,10 @@ class _GetStoreProductsState extends State<GetStoreProducts> {
                                 // side: BorderSide(
                                 //     color: Color(darkBlue), width: 1),
                                 foregroundColor: Color(darkBlue),
-                                backgroundColor: Color(newLightBeige),
-                                elevation: 2,
+                                backgroundColor: Color(white),
+                                elevation: 0,
                                 //padding: EdgeInsets.all(10),
-                                fixedSize: Size(20, 50)),
+                                fixedSize: Size(20, 60)),
                             child: Column(
                               children: [
                                 productInfo.photo != null
@@ -146,8 +155,28 @@ class _GetStoreProductsState extends State<GetStoreProducts> {
                           );
                         },
                       ))
-                ]),
+            ]),
+          )),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Get.to(Basket());
+          },
+          backgroundColor: Color(NewDarkBlue),
+          label: Container(
+              width: 40,
+              height: 30,
+              decoration: BoxDecoration(
+                  color: Color(NewDarkBlue),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Image.asset(
+                'icons/cart-shopping-fast.png',
+                height: 10,
               )),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         selectedLabelStyle: TextStyle(color: Color(darkBlue)),
@@ -155,7 +184,7 @@ class _GetStoreProductsState extends State<GetStoreProducts> {
           setState(() {
             currentIndex = value;
             if (currentIndex == 0) {
-              Get.off(HomePageS());
+              Get.off(HomePageForStudents());
             } else if (currentIndex == 1) {
               Get.to(ShowStudentCalendar());
             } else if (currentIndex == 2) {
@@ -189,7 +218,7 @@ class _GetStoreProductsState extends State<GetStoreProducts> {
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'icons/teeth-open.png',
+              'icons/teeth-open1.png',
               height: 25,
             ),
             label: 'X-ray',

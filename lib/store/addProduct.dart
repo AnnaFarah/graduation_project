@@ -56,20 +56,19 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(newLightBeige),
+      backgroundColor: Color(white),
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(right: 290),
-            child: ElevatedButton(
+            padding: const EdgeInsets.only(right: 330, top: 0),
+            child: IconButton(
               onPressed: () {
                 Get.off(GetStoreProducts());
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(newOrange),
-              ),
-              child: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back),
+              color: Color(black),
+              iconSize: 35,
             ),
           ),
           Image.network(
@@ -139,7 +138,10 @@ class _AddProductState extends State<AddProduct> {
                 };
                 MyCart.fullData.add(newProduct2);
               },
-              child: Text('confirm'),
+              child: Text(
+                'confirm',
+                style: TextStyle(fontSize: 18),
+              ),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Color(newOrange), fixedSize: Size(120, 16)),
             ),

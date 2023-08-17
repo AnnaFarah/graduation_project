@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
-import 'package:newstart/homePageFroStudents.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
@@ -70,11 +69,24 @@ class _StudentRequestState extends State<StudentRequest> {
       setState(() {});
       if (response['message'] == 'your request has been added') {
         print('flutter: request sent');
-        Get.off(HomePageS());
+        Get.off(HomePageForStudents());
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Request has been sent successfully",
+            style: TextStyle(fontSize: 20),
+          ),
+        ));
       } else {
         print('flutter: error sending request');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Error! something went wrong.",
+            style: TextStyle(fontSize: 20),
+          ),
+        ));
       }
-    } else {
+    }
+    if (master == false) {
       var response = await getPost.postRequest(makeRequestApi, {
         'year': year,
         'subject': subject,
@@ -90,9 +102,21 @@ class _StudentRequestState extends State<StudentRequest> {
       setState(() {});
       if (response['message'] == 'your request has been added') {
         print('flutter: request sent');
-        Get.off(HomePageS());
+        Get.off(HomePageForStudents());
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Request has been sent successfully",
+            style: TextStyle(fontSize: 20),
+          ),
+        ));
       } else {
         print('flutter: error sending request');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Error! something went wrong.",
+            style: TextStyle(fontSize: 20),
+          ),
+        ));
       }
     }
   }
@@ -100,7 +124,7 @@ class _StudentRequestState extends State<StudentRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(NewLightBlue),
+      backgroundColor: Color(NewDarkBlue),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
@@ -108,7 +132,7 @@ class _StudentRequestState extends State<StudentRequest> {
               child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: BoxDecoration(color: Color(NewLightBlue)),
+                  decoration: BoxDecoration(color: Color(NewDarkBlue)),
                   child: Padding(
                     padding:
                         const EdgeInsets.only(left: 20, right: 20, top: 14),
@@ -121,14 +145,13 @@ class _StudentRequestState extends State<StudentRequest> {
                             Get.off(HomePageForStudents());
                           },
                           icon: Icon(Icons.arrow_back),
-                          color: Color(NewDarkBlue),
+                          color: Color(white),
                           iconSize: 30,
                         ),
                         Center(
                           child: Text(
                             'Send request'.tr,
-                            style: TextStyle(
-                                color: Color(NewDarkBlue), fontSize: 25),
+                            style: TextStyle(color: Color(white), fontSize: 25),
                           ),
                         ),
                       ],
@@ -315,7 +338,7 @@ class _StudentRequestState extends State<StudentRequest> {
                                       child: Text('19'.tr),
                                       style: ElevatedButton.styleFrom(
                                           shape: StadiumBorder(),
-                                          backgroundColor: Color(NewDarkBlue),
+                                          backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
                                 )
                               : Center(
@@ -326,7 +349,7 @@ class _StudentRequestState extends State<StudentRequest> {
                                       child: Text('19'.tr),
                                       style: ElevatedButton.styleFrom(
                                           shape: StadiumBorder(),
-                                          backgroundColor: Color(NewDarkBlue),
+                                          backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
                                 ),
                           gotConditions == true
@@ -359,7 +382,7 @@ class _StudentRequestState extends State<StudentRequest> {
                                       child: Text('37'.tr),
                                       style: ElevatedButton.styleFrom(
                                           shape: StadiumBorder(),
-                                          backgroundColor: Color(NewDarkBlue),
+                                          backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
                                 )
                               : SizedBox(),
@@ -374,7 +397,7 @@ class _StudentRequestState extends State<StudentRequest> {
                                       child: Text('37'.tr),
                                       style: ElevatedButton.styleFrom(
                                           shape: StadiumBorder(),
-                                          backgroundColor: Color(NewDarkBlue),
+                                          backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
                                 )
                               : SizedBox(),

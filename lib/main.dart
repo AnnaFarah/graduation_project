@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newstart/homePageFroStudents.dart';
+import 'package:newstart/homePageForPatients.dart';
 import 'package:newstart/locale/local_controller.dart';
 import 'package:newstart/locale/locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       translations: MyLocale(),
       debugShowCheckedModeBanner: false,
-      home: HomePageForStudents(),
+      home: HomePageForPatients(),
     );
   }
 }

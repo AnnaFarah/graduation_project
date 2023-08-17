@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/patient/consulation.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/consults.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../constant/appColor.dart';
 import '../main.dart';
@@ -52,52 +53,62 @@ class _ConsultationPatientsState extends State<ConsultationPatients> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
-      body: posts.isEmpty
-          ? Text('30'.tr)
-          : Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 300, top: 20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.off(HomePageS());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(newOrange),
-                      ),
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                  Center(
-                    child: Text('6'.tr,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(white),
+      body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 330, top: 30),
+                child: IconButton(
+                  onPressed: () {
+                    Get.off(HomePageForStudents());
+                  },
+                  icon: Icon(Icons.arrow_back),
+                  color: Color(black),
+                  iconSize: 35,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 200, top: 10),
+                child: Text(
+                  'My Consults',
+                  style: TextStyle(
+                      color: Color(NewDarkBlue),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              posts.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 210),
+                      child: Center(
+                          child: Text(
+                        'No consults',
                         style: TextStyle(
-                            fontFamily: 'cookie',
-                            color: Colors.black,
-                            fontSize: 43)),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: posts.length,
-                        itemBuilder: (context, i) {
-                          ConsulateInfo consulateInfo = ConsulateInfo(
-                              id: posts[i]['id'],
-                              patientID: posts[i]['patient_id'],
-                              isDone: posts[i]['is_done'],
-                              description: posts[i]['description'],
-                              phoneNumber: posts[i]['phoneNumber'],
-                              type: posts[i]['type']);
+                            fontSize: 25, color: Colors.grey.shade700),
+                      )),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                          itemCount: posts.length,
+                          itemBuilder: (context, i) {
+                            ConsulateInfo consulateInfo = ConsulateInfo(
+                                id: posts[i]['id'],
+                                patientID: posts[i]['patient_id'],
+                                isDone: posts[i]['is_done'],
+                                description: posts[i]['description'],
+                                phoneNumber: posts[i]['phoneNumber'],
+                                type: posts[i]['type']);
 
-                          return EditTaskItem(
-                            consulateInfo: consulateInfo,
-                          );
-                        }),
-                  ),
-                ],
-              )),
+                            return Consults(
+                              consulateInfo: consulateInfo,
+                            );
+                          }),
+                    ),
+            ],
+          )),
     );
   }
 }

@@ -54,8 +54,20 @@ class _AddPersonalWorkState extends State<AddPersonalWork> {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Work added successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     } else {
       print(response.reasonPhrase);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 

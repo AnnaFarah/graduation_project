@@ -42,76 +42,91 @@ class _BasketState extends State<Basket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: MyCart.data.isEmpty
-            ? Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Get.off(GetStoreProducts());
-                      },
-                      icon: Icon(Icons.arrow_back)),
-                  Text('30'.tr)
-                ],
-              )
-            : Form(
-                key: formKey,
-                child: Column(
+        body: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 330, top: 30),
+                  child: IconButton(
+                    onPressed: () {
+                      Get.off(GetStoreProducts());
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    color: Color(black),
+                    iconSize: 35,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 250, top: 20),
+                  child: Text('51'.tr,
+                      style: TextStyle(
+                          color: Color(newOrange),
+                          fontSize: 27,
+                          fontWeight: FontWeight.w500)),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 300, top: 20),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.to(GetStoreProducts());
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(newOrange),
+                    Text('Name'),
+                    Text('Quantity'),
+                    Text('Price(per unit)')
+                  ],
+                ),
+                Divider(color: Colors.grey.shade400),
+                MyCart.data.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 210),
+                        child: Center(
+                          child: Text('Empty',
+                              style: TextStyle(
+                                  fontSize: 25, color: Colors.grey.shade700)),
                         ),
-                        child: Icon(Icons.arrow_back),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: MyCart.data.length,
+                            itemBuilder: (context, i) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text('${MyCart.fullData[i]['name']}'),
+                                  // SizedBox(
+                                  //   width: 50,
+                                  // ),
+                                  Text('${MyCart.fullData[i]['quantity']}'),
+                                  // SizedBox(
+                                  //   width: 50,
+                                  // ),
+                                  Text('${MyCart.fullData[i]['price']}'),
+                                ],
+                              );
+                            }),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 250, top: 20),
-                      child: Text('51'.tr,
-                          style: TextStyle(
-                              fontFamily: 'cookie',
-                              color: Colors.black,
-                              fontSize: 35)),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('Name'),
-                        Text('Quantity'),
-                        Text('Price(per unit)')
-                      ],
-                    ),
-                    Divider(color: Colors.grey.shade400),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: MyCart.data.length,
-                          itemBuilder: (context, i) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text('${MyCart.fullData[i]['name']}'),
-                                // SizedBox(
-                                //   width: 50,
-                                // ),
-                                Text('${MyCart.fullData[i]['quantity']}'),
-                                // SizedBox(
-                                //   width: 50,
-                                // ),
-                                Text('${MyCart.fullData[i]['price']}'),
-                              ],
-                            );
-                          }),
-                    ),
-                    ElevatedButton(
+                SizedBox(
+                  height: 10,
+                ),
+                MyCart.data.isEmpty
+                    ? SizedBox()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          backgroundColor: Color(newOrange),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 50),
+                        ),
                         onPressed: () async {
                           await sendProducts();
                         },
-                        child: Text('Confirm'))
-                  ],
-                )));
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(fontSize: 15),
+                        ))
+              ],
+            )));
   }
 }
