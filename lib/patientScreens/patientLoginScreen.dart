@@ -33,9 +33,12 @@ class _patientLoginScreenState extends State<patientLoginScreen> {
       isLoading = true;
       setState(() {});
       var response = await getPost.postRequest(
-          '${url}/api/login',
-          {'email': email.text, 'password': password.text},
-          {'Accept': 'application/json'});
+        '${url}/api/login',
+        {'email': email.text, 'password': password.text},
+        {
+          'Accept': 'application/json',
+        },
+      );
 
       isLoading = false;
       setState(() {});
@@ -48,6 +51,8 @@ class _patientLoginScreenState extends State<patientLoginScreen> {
         patientSharedPreferences.setString(
             'name', response['data']['name'].toString());
         print(response);
+        // await registerOnFirebase(true);
+
         Get.off(PatientHomePage());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");

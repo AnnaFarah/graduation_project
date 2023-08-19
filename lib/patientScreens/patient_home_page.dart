@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
@@ -6,10 +9,14 @@ import 'package:newstart/patientScreens/makeAnAppointment.dart';
 import 'package:newstart/patientScreens/medicalProfile.dart';
 import 'package:newstart/patientScreens/patientProfileScreen.dart';
 
+import '../chat/controllers/chat_with_admin_controller.dart';
+import '../chat/views/chat_view.dart';
 import '../choseLoginType.dart';
 import '../constant/appColor.dart';
 import '../locale/local_controller.dart';
 import '../main.dart';
+import '../student/notificationsstudent.dart';
+import 'package:http/http.dart' as http;
 
 class PatientHomePage extends StatefulWidget {
   @override
@@ -101,15 +108,71 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   iconSize: 30,
                 );
               }),
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: Icon(Icons.notifications),
-              //   iconSize: 30,
-              // ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.message),
-                iconSize: 30,
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Get.to(NotificationStudentView());
+                    },
+                    icon: Icon(Icons.notifications),
+                    iconSize: 30,
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      log(patientSharedPreferences
+                          .getString('token')
+                          .toString());
+                      var response = await http.get(
+                        Uri.parse(
+                          '${url}/api/FindOutMyStudentID',
+                        ),
+                        headers: {
+                          'Accept': 'application/json',
+                          'Authorization':
+                              'Bearer ${patientSharedPreferences.getString('token')}'
+                        },
+                      );
+                      if (response.statusCode != 200) {
+                        showDialog(
+                          context: context,
+                          builder: (x) {
+                            return Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: AlertDialog(
+                                title: Text("عذراً"),
+                                content: Text("لايوجد أطباء لهذا المريض"),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        Get.lazyPut(() => ChatController());
+                        Get.to(
+                          ChatView(
+                            patient_id: int.parse(
+                                patientSharedPreferences.getString('id')!),
+                            doctor_id: jsonDecode((response.body))['data']
+                                ['student_id'],
+                            name: patientSharedPreferences.getString('name')!,
+                            isDocotor: false,
+                          ),
+                          arguments: {
+                            'patient_id': int.parse(
+                                patientSharedPreferences.getString('id')!),
+                            'doctor_id': jsonDecode((response.body))['data']
+                                ['student_id'],
+                            'name': patientSharedPreferences.getString('name')!,
+                            'isDoctor': false,
+                          },
+                        );
+                      }
+                      inspect(response);
+                      return;
+                    },
+                    icon: Icon(Icons.message),
+                    iconSize: 30,
+                  ),
+                ],
               ),
             ],
           ),

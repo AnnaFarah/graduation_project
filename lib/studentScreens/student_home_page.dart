@@ -10,10 +10,12 @@ import 'package:newstart/studentScreens/studentRequest.dart';
 import 'package:newstart/studentScreens/studentShowCalendar.dart';
 import 'package:newstart/studentScreens/studentShowProfile.dart';
 
+import '../chat/views/chat_view_patients.dart';
 import '../choseLoginType.dart';
 import '../lab/getAvailableTime.dart';
 import '../locale/local_controller.dart';
 import '../main.dart';
+import '../student/notificationsstudent.dart';
 
 class HomePageS extends StatefulWidget {
   @override
@@ -92,12 +94,16 @@ class _HomePageSState extends State<HomePageS> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(NotificationStudentView());
+                    },
                     icon: Icon(Icons.notifications),
                     iconSize: 30,
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ChatViewPatients());
+                    },
                     icon: Icon(Icons.message),
                     iconSize: 30,
                   ),

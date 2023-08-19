@@ -48,6 +48,8 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
         studentSharedPreferences.setString('type', studentType);
         studentSharedPreferences.setString(
             'name', response['data']['name'].toString());
+        // await registerOnFirebase(false);
+
         Get.off(HomePageS());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");

@@ -6,6 +6,7 @@ import 'package:newstart/constant/appColor.dart';
 import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/showStudentPreRequests.dart';
 import 'package:newstart/store/getProducts.dart';
+import 'package:newstart/student/notificationsstudent.dart';
 import 'package:newstart/student/requestInfo.dart';
 import 'package:newstart/studentScreens/consultationPatients.dart';
 import 'package:newstart/studentScreens/myPatients.dart';
@@ -18,6 +19,7 @@ import 'package:newstart/studentScreens/studentShowProfile.dart';
 import '../choseLoginType.dart';
 import '../locale/local_controller.dart';
 import '../main.dart';
+import 'chat/views/chat_view_patients.dart';
 import 'lab/getAvailableTime.dart';
 
 class HomePageForStudents extends StatefulWidget {
@@ -129,12 +131,16 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(NotificationStudentView());
+                        },
                         icon: Icon(Icons.notifications_none_sharp),
                         iconSize: 30,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(ChatViewPatients());
+                        },
                         icon: Icon(Icons.chat_bubble_outline_outlined),
                         iconSize: 30,
                       ),
