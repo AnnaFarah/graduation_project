@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:newstart/Controller/changeDate.dart';
 import 'package:newstart/locale/local_controller.dart';
 import 'package:newstart/patientScreens/appointments.dart';
@@ -9,7 +11,6 @@ import 'package:newstart/patientScreens/makeAnAppointment.dart';
 import 'package:newstart/patientScreens/medicalProfile.dart';
 import 'package:newstart/patientScreens/patientProfileScreen.dart';
 import 'package:newstart/student/notificationspatient.dart';
-import 'package:newstart/student/notificationsstudent.dart';
 
 import 'chat/controllers/chat_with_admin_controller.dart';
 import 'chat/views/chat_view.dart';
@@ -52,6 +53,7 @@ class _HomePageForPatientsState extends State<HomePageForPatients> {
   @override
   Widget build(BuildContext context) {
     MyLocalController controllerLang = Get.find();
+    log(studentSharedPreferences.getString('fcmToken')!);
     return Scaffold(
       backgroundColor: Color(white),
       drawer: Drawer(

@@ -18,17 +18,22 @@ Future<void> registerOnFirebase(bool isPatient) async {
       log(token!);
       if (isPatient) {
         await patientSharedPreferences.setString('fcmToken', token);
+        await storeFcmToken(
+          fcmToken: token,
+          authToken: patientSharedPreferences.getString('token')!,
+        );
       } else {
         await studentSharedPreferences.setString('fcmToken', token);
+        await storeFcmToken(
+          fcmToken: token,
+          authToken: studentSharedPreferences.getString('token')!,
+        );
       }
-      await storeFcmToken(
-        fcmToken: token,
-        authToken: patientSharedPreferences.getString('token')!,
-      );
     },
   );
   FirebaseMessaging.onMessage.listen(
     (RemoteMessage message) {
+      log(message.data.toString());
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

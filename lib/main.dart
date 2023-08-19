@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
+  // await registerOnFirebase(false);
   WidgetsFlutterBinding.ensureInitialized();
   patientSharedPreferences = await SharedPreferences.getInstance();
   studentSharedPreferences = await SharedPreferences.getInstance();
