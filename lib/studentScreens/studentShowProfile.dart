@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/student/profileInfo.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 import 'package:newstart/studentScreens/studentUpdateProfile.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
 
 import '../component/getAndPost.dart';
 import '../constant/appColor.dart';
@@ -139,7 +139,7 @@ class _StudentProfileState extends State<StudentProfile> {
                     padding: const EdgeInsets.only(right: 300),
                     child: IconButton(
                       onPressed: () {
-                        Get.off(HomePageS());
+                        Get.off(HomePageForStudents());
                       },
                       icon: Icon(Icons.arrow_back),
                       iconSize: 40,

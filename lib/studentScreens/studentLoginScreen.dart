@@ -2,13 +2,13 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
-import 'package:newstart/component/textField.dart';
 import 'package:newstart/main.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 import 'package:newstart/studentScreens/studentSignup.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
+import '../firebase-management/getFcmToken.dart';
 
 class StudentLoginScreen extends StatefulWidget {
   @override
@@ -48,9 +48,9 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
         studentSharedPreferences.setString('type', studentType);
         studentSharedPreferences.setString(
             'name', response['data']['name'].toString());
-        // await registerOnFirebase(false);
+        await registerOnFirebase(false);
 
-        Get.off(HomePageS());
+        Get.off(HomePageForStudents());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");
         AwesomeDialog(
@@ -65,97 +65,117 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(newblack),
+      //backgroundColor: Color(newblack),
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          Expanded(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/newBackground.JPG"), fit: BoxFit.cover),
+        ),
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
               child:
-                  Container(decoration: BoxDecoration(color: Color(newblack)))),
-          Expanded(
-              flex: 4,
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 220, top: 30),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Color(newblack),
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 35, right: 35, top: 50),
-                          child: TextFieldComponent(
-                              hint: 'Username', myController: email),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 35, right: 35, top: 20),
-                          child: TextFieldComponent(
-                              hint: 'Password', myController: password),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 90),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await tologin();
-                            },
-                            child: isLoading == true
-                                ? CircularProgressIndicator(
-                                    color: Color(newblack),
-                                  )
-                                : Text(
-                                    'Confirm',
-                                    style: TextStyle(
-                                        color: Color(newblack), fontSize: 17),
-                                  ),
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
-                                backgroundColor: Color(newlightGreen),
-                                fixedSize: Size(220, 50)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Dont have an account?',
-                          style: TextStyle(color: Color(newblack)),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Get.to(StudentSignup());
-                            },
-                            child: Text(
-                              'Sign up',
-                              style: TextStyle(
-                                  color: Color(newblack),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 23),
-                            ))
-                      ]),
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 240, top: 80),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
-                decoration: BoxDecoration(
-                    color: Color(newgrey),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        topRight: Radius.circular(60))),
-              ))
-        ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 300, top: 50),
+                  child: Text(
+                    'Email:',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                  child: TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Email",
+                      //enabledBorder: OutlineInputBorder()
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 260, top: 40),
+                  child: Text(
+                    'Password:',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30, top: 15),
+                  child: TextFormField(
+                    controller: password,
+                    decoration: InputDecoration(
+                        hintText: "...............",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await tologin();
+                    },
+                    child: isLoading == true
+                        ? CircularProgressIndicator(
+                            color: Color(white),
+                          )
+                        : Text(
+                            'Login',
+                            style: TextStyle(color: Color(white), fontSize: 19),
+                          ),
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40)),
+                        backgroundColor: Color(NewDarkBlue),
+                        fixedSize: Size(220, 50)),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Dont have an account?',
+                  style: TextStyle(color: Color(black), fontSize: 17),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                TextButton(
+                    onPressed: () {
+                      Get.to(StudentSignup());
+                    },
+                    child: Text(
+                      'Sign up',
+                      style: TextStyle(
+                          color: Color(newOrange),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 25),
+                    ))
+              ]),
+            )
+          ],
+        ),
       ),
     );
   }

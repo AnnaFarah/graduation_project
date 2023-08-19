@@ -4,8 +4,8 @@ import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/student/myPatientsInfo.dart';
 import 'package:newstart/studentScreens/addPrescription.dart';
 import 'package:newstart/studentScreens/addRecord.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 import 'package:newstart/studentScreens/showRecords.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
@@ -79,8 +79,20 @@ class _MyPatientsState extends State<MyPatients> {
     if (response['message'] ==
         "your prescription has been added successfully ") {
       print("flutter: added prescription");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Added successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     } else {
       print('flutter: error adding prescription');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 
@@ -104,7 +116,7 @@ class _MyPatientsState extends State<MyPatients> {
                       padding: const EdgeInsets.only(right: 300, top: 20),
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.off(HomePageS());
+                          Get.off(HomePageForStudents());
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(newOrange),

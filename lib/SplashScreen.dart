@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newstart/choseLoginType.dart';
+import 'package:newstart/homePageForPatients.dart';
+import 'package:newstart/patientScreens/patientLoginScreen.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
+import 'package:newstart/studentScreens/studentLoginScreen.dart';
 
 import 'constant/appColor.dart';
+import 'main.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -17,8 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
-    Get.off(ChoseLoginType());
+    await Future.delayed(Duration(milliseconds: 2500), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+    //Get.off(ChoseLoginType());
 
     // Navigator.pushReplacement(
     //    context, MaterialPageRoute(builder: (context) => ChoseLoginType()));
@@ -28,41 +37,63 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Color(faintGreen), Color(faintBlue)],
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft)),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 300),
-                child: Column(
-                  children: [
-                    // Image.asset(
-                    //   'icons/tooth-brush.png',
-                    //   height: 65,
-                    // ),
-                    Text(
-                      'Hollywood smile',
-                      style: TextStyle(
-                          fontFamily: 'cookie',
-                          fontSize: 45,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ))
-        // Container(
-        //   width: double.infinity,
-        //   height: double.infinity,
-        //   decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage("images/Splash screen.JPG"), fit: BoxFit.cover),
-        //   ),
-        // ),
-        );
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/splash screen1.jpg"), fit: BoxFit.cover),
+      ),
+      child: Center(
+        child: Padding(
+            padding: const EdgeInsets.only(top: 500),
+            child: isLoading == true
+                ? SizedBox()
+                : Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          studentSharedPreferences.getString('token') == null
+                              ? Get.off(StudentLoginScreen())
+                              : Get.off(HomePageForStudents());
+                          //Get.off(StudentLoginScreen());
+                        },
+                        child: Text(
+                          '63'.tr,
+                          style: TextStyle(
+                              color: Color(NewDarkBlue), fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          backgroundColor: Color(NewLightBlue),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 120),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          patientSharedPreferences.getString('token') == null
+                              ? Get.off((patientLoginScreen()))
+                              : Get.off(HomePageForPatients());
+                          //Get.off(patientLoginScreen());
+                        },
+                        child: Text(
+                          '64'.tr,
+                          style: TextStyle(
+                              color: Color(NewDarkBlue), fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          backgroundColor: Color(NewLightBlue),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 120),
+                        ),
+                      ),
+                    ],
+                  )),
+      ),
+    ));
   }
 }

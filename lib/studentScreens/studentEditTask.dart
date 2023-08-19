@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/constant/appColor.dart';
-import 'package:newstart/studentScreens/studentTasks.dart';
 
 import '../component/getAndPost.dart';
 import '../constant/appliApis.dart';
@@ -56,7 +55,20 @@ class _StudentEditTaskState extends State<StudentEditTask> {
     setState(() {});
 
     if (response['message'] == 'your task has been updated successfully') {
-      Get.off(TryTask());
+      Get.off(ShowTasks());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Updated successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 
@@ -76,7 +88,7 @@ class _StudentEditTaskState extends State<StudentEditTask> {
                   padding: const EdgeInsets.only(right: 300, top: 20),
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.off(TryTask());
+                      Get.off(ShowTasks());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(newOrange),

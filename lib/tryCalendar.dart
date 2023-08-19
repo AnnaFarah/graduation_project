@@ -2,7 +2,6 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/constant/appColor.dart';
-import 'package:newstart/studentScreens/consultationPatients.dart';
 
 import 'component/getAndPost.dart';
 import 'constant/appliApis.dart';
@@ -60,7 +59,20 @@ class _CalendarStudentState extends State<CalendarStudent> {
       print('patient_id: ${widget.id}');
       print('Flutter: added to calendar');
       print('response body: ${response}');
-      Get.off(ConsultationPatients());
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Added to calendar",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 
@@ -68,25 +80,24 @@ class _CalendarStudentState extends State<CalendarStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(newDarkBlue),
+      backgroundColor: Color(NewDarkBlue),
       body: Container(
           child: Column(children: [
         Expanded(
             child: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(color: Color(newDarkBlue)),
+          decoration: BoxDecoration(color: Color(NewDarkBlue)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.calendar_month_rounded),
+              //Icon(Icons.calendar_month_rounded),
               SizedBox(
                 width: 8,
               ),
               Text(
                 '41'.tr,
-                style: TextStyle(
-                    fontFamily: 'cookie', color: Colors.black, fontSize: 43),
+                style: TextStyle(color: Color(white), fontSize: 30),
               )
             ],
           ),
@@ -97,7 +108,7 @@ class _CalendarStudentState extends State<CalendarStudent> {
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
-                  color: Color(newLightBeige),
+                  color: Color(white),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50),
@@ -109,7 +120,7 @@ class _CalendarStudentState extends State<CalendarStudent> {
                   children: [
                     Text('42'.tr,
                         style:
-                            TextStyle(fontSize: 20, color: Color(newDarkBlue))),
+                            TextStyle(fontSize: 20, color: Color(NewDarkBlue))),
                     SizedBox(
                       height: 30,
                     ),
@@ -150,57 +161,86 @@ class _CalendarStudentState extends State<CalendarStudent> {
                       },
                     ),
                     SizedBox(height: 50),
-                    Text('43'.tr,
-                        style:
-                            TextStyle(fontSize: 20, color: Color(newDarkBlue))),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Text('44'.tr),
-                            Text(
-                              ':  ${pickedHour} : ${pickedMin}',
+                    Center(
+                      child: Row(
+                        children: [
+                          Text('43'.tr,
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(navyBlue)),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            _showTimePicker();
-                          },
-                          icon: Icon(Icons.edit),
-                          color: Color(navyBlue),
-                        )
-                      ],
+                                  fontSize: 22,
+                                  color: Color(NewDarkBlue),
+                                  fontWeight: FontWeight.w500)),
+                          SizedBox(width: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    ' ${pickedHour} : ${pickedMin}',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(navyBlue)),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              _showTimePicker();
+                            },
+                            icon: Icon(Icons.edit),
+                            color: Color(navyBlue),
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 80,
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await calendarAPI();
-                      },
-                      child: Text('19'.tr),
-                      style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(),
-                          backgroundColor: Color(newOrange),
-                          fixedSize: Size(250, 40)),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await calendarAPI();
+                        },
+                        child: isLoading == true
+                            ? CircularProgressIndicator(
+                                color: Color(white),
+                              )
+                            : Text(
+                                'Confirm',
+                                style: TextStyle(
+                                    color: Color(white), fontSize: 19),
+                              ),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)),
+                            backgroundColor: Color(newOrange),
+                            fixedSize: Size(250, 50)),
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.off(ConsultationPatients());
-                      },
-                      child: Text('20'.tr),
-                      style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(),
-                          backgroundColor: Colors.grey.shade400,
-                          fixedSize: Size(250, 40)),
+                    SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: isLoading == true
+                            ? CircularProgressIndicator(
+                                color: Color(white),
+                              )
+                            : Text(
+                                'Cancel',
+                                style: TextStyle(
+                                    color: Color(white), fontSize: 19),
+                              ),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)),
+                            backgroundColor: Colors.grey.shade400,
+                            fixedSize: Size(250, 50)),
+                      ),
                     ),
                   ],
                 ),

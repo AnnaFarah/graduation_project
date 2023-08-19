@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newstart/component/validator.dart';
 import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/patientScreens/patientLoginScreen.dart';
 
@@ -74,192 +73,177 @@ class _SignupScreenState extends State<SignupScreen> {
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                Color(faintBlue),
-                Color(faintGreen),
-              ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
-              child: ListView(
-                children: [
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.off(patientLoginScreen());
-                          },
-                          icon: Icon(Icons.arrow_back),
-                          color: Color(navyBlue),
-                          iconSize: 30,
-                        ),
-                        Center(
-                          child: Text(
-                            'Create new account',
-                            style: TextStyle(
-                                fontFamily: 'cookie',
-                                fontSize: 45,
-                                color: Color(navyBlue)),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 50),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 5),
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      obscureText: false,
-                                      controller: name,
-                                      validator: (val) {
-                                        return validator(val!, 3, 20);
-                                      },
-                                      decoration: InputDecoration(
-                                          icon: Icon(
-                                            Icons.person_outline,
-                                            color: Color(navyBlue),
-                                            size: 30,
-                                          ),
-                                          hintText: "User name",
-                                          hintStyle: TextStyle(
-                                              color: Color(navyBlue),
-                                              fontWeight: FontWeight.w300),
-                                          border: InputBorder.none),
-                                    ),
-                                    Divider(
-                                      color: Colors.grey.shade500,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextFormField(
-                                      obscureText: false,
-                                      controller: email,
-                                      validator: (val) {
-                                        return validator(val!, 3, 40);
-                                      },
-                                      decoration: InputDecoration(
-                                          icon: Icon(
-                                            Icons.email,
-                                            color: Color(navyBlue),
-                                            size: 30,
-                                          ),
-                                          hintText: "Email",
-                                          hintStyle: TextStyle(
-                                              color: Color(navyBlue),
-                                              fontWeight: FontWeight.w300),
-                                          border: InputBorder.none),
-                                    ),
-                                    Divider(
-                                      color: Colors.grey.shade500,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextFormField(
-                                      obscureText: true,
-                                      controller: password,
-                                      validator: (val) {
-                                        return validator(val!, 3, 20);
-                                      },
-                                      decoration: InputDecoration(
-                                          icon: Icon(
-                                            Icons.lock,
-                                            color: Color(navyBlue),
-                                            size: 30,
-                                          ),
-                                          hintText: "Password",
-                                          hintStyle: TextStyle(
-                                              color: Color(navyBlue),
-                                              fontWeight: FontWeight.w300),
-                                          border: InputBorder.none),
-                                    ),
-                                    Divider(
-                                      color: Colors.grey.shade500,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextFormField(
-                                      obscureText: false,
-                                      controller: age,
-                                      validator: (val) {
-                                        return validator(val!, 1, 3);
-                                      },
-                                      decoration: InputDecoration(
-                                          icon: Icon(
-                                            Icons.person_outline,
-                                            color: Color(navyBlue),
-                                            size: 30,
-                                          ),
-                                          hintText: "age",
-                                          hintStyle: TextStyle(
-                                              color: Color(navyBlue),
-                                              fontWeight: FontWeight.w300),
-                                          border: InputBorder.none),
-                                    ),
-                                    Divider(
-                                      color: Colors.grey.shade500,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    DropdownButton(
-                                      hint: Text('Gender'),
-                                      items: ['Female', 'Male']
-                                          .map((e) => DropdownMenuItem(
-                                              child: Text('$e'), value: e))
-                                          .toList(),
-                                      onChanged: (val) {
-                                        setState(() {
-                                          gender1 = val!;
-                                        });
-                                      },
-                                      value: gender1,
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await toSignUp();
-                                      },
-                                      child: Text(
-                                        "Create",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey.shade700),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: StadiumBorder(),
-                                        backgroundColor:
-                                            Colors.blueGrey.shade100,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 16, horizontal: 120),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                image: DecorationImage(
+                    image: AssetImage("images/newBackground.JPG"),
+                    fit: BoxFit.cover),
               ),
-            ),
+              child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 240, top: 80),
+                        child: Text(
+                          'Sign up',
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 250, top: 30),
+                      //   child: Text(
+                      //     'Username:',
+                      //     style: TextStyle(color: Colors.black, fontSize: 20),
+                      //   ),
+                      // ),
+                      SizedBox(height: 30),
+                      Container(
+                        width: 350,
+                        height: 70,
+                        child: TextFormField(
+                          controller: name,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            hintText: "Username",
+                            //enabledBorder: OutlineInputBorder()
+                          ),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 280, top: 20),
+                      //   child: Text(
+                      //     'Email:',
+                      //     style: TextStyle(color: Colors.black, fontSize: 20),
+                      //   ),
+                      // ),
+                      SizedBox(height: 15),
+                      Container(
+                        width: 350,
+                        height: 70,
+                        child: TextFormField(
+                          controller: email,
+                          decoration: InputDecoration(
+                              hintText: "Email",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              )),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 240, top: 20),
+                      //   child: Text(
+                      //     'Password:',
+                      //     style: TextStyle(color: Colors.black, fontSize: 20),
+                      //   ),
+                      // ),
+                      SizedBox(height: 15),
+                      Container(
+                        width: 350,
+                        height: 70,
+                        child: TextFormField(
+                          controller: password,
+                          decoration: InputDecoration(
+                              hintText: "Password",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              )),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 300, top: 20),
+                      //   child: Text(
+                      //     'Age:',
+                      //     style: TextStyle(color: Colors.black, fontSize: 20),
+                      //   ),
+                      // ),
+                      SizedBox(height: 15),
+                      Container(
+                        width: 350,
+                        height: 70,
+                        child: TextFormField(
+                          controller: age,
+                          decoration: InputDecoration(
+                              hintText: "Age",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              )),
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 40,
+                          ),
+                          Text(
+                            "Gender:",
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          DropdownButton(
+                            hint: Text('Gender'),
+                            items: ['Female', 'Male']
+                                .map((e) => DropdownMenuItem(
+                                    child: Text('$e'), value: e))
+                                .toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                gender1 = val!;
+                              });
+                            },
+                            value: gender1,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await toSignUp();
+                          },
+                          child: isLoading == true
+                              ? CircularProgressIndicator(
+                                  color: Color(newblack),
+                                )
+                              : Text(
+                                  'Sign up',
+                                  style: TextStyle(
+                                      color: Color(white), fontSize: 19),
+                                ),
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40)),
+                              backgroundColor: Color(NewDarkBlue),
+                              fixedSize: Size(220, 50)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      TextButton(
+                          onPressed: () {
+                            Get.to(patientLoginScreen());
+                          },
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                color: Color(newOrange),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25),
+                          ))
+                    ],
+                  ))),
     );
   }
 }

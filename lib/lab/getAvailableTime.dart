@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/lab/timeInfo.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
@@ -121,7 +121,7 @@ class _GetAvailableTimeState extends State<GetAvailableTime> {
           setState(() {
             currentIndex = value;
             if (currentIndex == 0) {
-              Get.off(HomePageS());
+              Get.off(HomePageForStudents());
             } else if (currentIndex == 1) {
               Get.to(ShowStudentCalendar());
             } else if (currentIndex == 2) {
@@ -153,7 +153,7 @@ class _GetAvailableTimeState extends State<GetAvailableTime> {
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'icons/teeth-open.png',
+              'icons/teeth-open1.png',
               height: 25,
             ),
             label: 'X-ray',

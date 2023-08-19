@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:newstart/studentScreens/studentLoginScreen.dart';
 
-import '../component/textField.dart';
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
 
@@ -30,7 +29,7 @@ class _StudentSignupState extends State<StudentSignup> {
   var specializations = 'لبية';
 
   Future pickerCamera() async {
-    final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final myfile = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
       _file = File(myfile!.path);
     });
@@ -81,165 +80,195 @@ class _StudentSignupState extends State<StudentSignup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(newblack),
       resizeToAvoidBottomInset: false,
-      body: Column(children: [
-        Expanded(
-            child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 330),
-                  child: IconButton(
-                    onPressed: () {
-                      Get.off(StudentLoginScreen());
-                    },
-                    icon: Icon(Icons.arrow_back),
-                    color: Color(newgrey),
-                    iconSize: 30,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/newBackground.JPG"), fit: BoxFit.cover),
+        ),
+        child: Column(children: [
+          Form(
+            key: formKey,
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 220, top: 70),
+                child: Text(
+                  'Sign up',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.black,
                   ),
                 ),
-                decoration: BoxDecoration(color: Color(newblack)))),
-        Expanded(
-            flex: 6,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Form(
-                key: formKey,
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 220, top: 30),
-                    child: Text(
-                      'Sign up',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Color(newblack),
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 35, right: 35, top: 30),
-                    child: TextFieldComponent(
-                        hint: 'Username', myController: name),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 35, right: 35, top: 20),
-                    child:
-                        TextFieldComponent(hint: 'Email', myController: email),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 35, right: 35, top: 20),
-                    child: TextFieldComponent(
-                        hint: 'Password', myController: password),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 25),
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              pickerCamera();
-                            },
-                            color: Color(navyBlue),
-                            icon: Icon(Icons.camera_enhance_sharp)),
-                        Text(
-                          'Add your college picture id',
-                          style:
-                              TextStyle(fontSize: 15, color: Color(newblack)),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      DropdownButton(
-                        hint: Text('type'),
-                        items: ['Bachelor_Degree', 'Master_Degree']
-                            .map((e) =>
-                                DropdownMenuItem(child: Text('$e'), value: e))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            type = val!;
-                          });
-                        },
-                        value: type,
-                      ),
-                      DropdownButton(
-                        hint: Text('year'),
-                        items: ['first', 'second', 'third', 'fourth', 'fifth']
-                            .map((e) =>
-                                DropdownMenuItem(child: Text('$e'), value: e))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            year = val!;
-                          });
-                        },
-                        value: year,
-                      ),
-                    ],
-                  ),
-                  year == 'first' || year == 'second' || year == 'third'
-                      ? DropdownButton(
-                          hint: Text('specializations'),
-                          items: [
-                            'جراحة',
-                            'طب أسنان الأطفال',
-                            'أمراض الفم',
-                            'تقويم',
-                            'لثة',
-                            'تعويضات المتحركة',
-                            'تعويضات الثابتة',
-                            'تجميل',
-                            'لبية'
-                          ]
-                              .map((e) =>
-                                  DropdownMenuItem(child: Text('$e'), value: e))
-                              .toList(),
-                          onChanged: (val) {
-                            setState(() {
-                              specializations = val!;
-                            });
-                          },
-                          value: specializations,
-                        )
-                      : SizedBox(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await post()();
-                      },
-                      child: isLoading == true
-                          ? CircularProgressIndicator(
-                              color: Color(newblack),
-                            )
-                          : Text(
-                              'Create',
-                              style: TextStyle(
-                                  color: Color(newblack), fontSize: 17),
-                            ),
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40)),
-                          backgroundColor: Color(newlightGreen),
-                          fixedSize: Size(220, 50)),
-                    ),
-                  ),
-                ]),
               ),
-              decoration: BoxDecoration(
-                  color: Color(newgrey),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(60),
-                      topRight: Radius.circular(60))),
-            ))
-      ]),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 260, top: 40),
+              //   child: Text(
+              //     'Username:',
+              //     style: TextStyle(color: Colors.black, fontSize: 20),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+                child: TextFormField(
+                  controller: name,
+                  decoration: InputDecoration(
+                      hintText: "name",
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 260, top: 40),
+              //   child: Text(
+              //     'Email:',
+              //     style: TextStyle(color: Colors.black, fontSize: 20),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                child: TextFormField(
+                  controller: email,
+                  decoration: InputDecoration(
+                      hintText: "email",
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 260, top: 40),
+              //   child: Text(
+              //     'Password:',
+              //     style: TextStyle(color: Colors.black, fontSize: 20),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                child: TextFormField(
+                  controller: password,
+                  decoration: InputDecoration(
+                      hintText: "password",
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 25),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          pickerCamera();
+                        },
+                        color: Colors.black,
+                        icon: Icon(Icons.camera_enhance_sharp)),
+                    Text(
+                      'Add your college picture id',
+                      style: TextStyle(fontSize: 15, color: Colors.black),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DropdownButton(
+                    hint: Text('type'),
+                    items: ['Bachelor_Degree', 'Master_Degree']
+                        .map((e) =>
+                            DropdownMenuItem(child: Text('$e'), value: e))
+                        .toList(),
+                    onChanged: (val) {
+                      setState(() {
+                        type = val!;
+                      });
+                    },
+                    value: type,
+                  ),
+                  DropdownButton(
+                    hint: Text('year'),
+                    items: ['first', 'second', 'third', 'fourth', 'fifth']
+                        .map((e) =>
+                            DropdownMenuItem(child: Text('$e'), value: e))
+                        .toList(),
+                    onChanged: (val) {
+                      setState(() {
+                        year = val!;
+                      });
+                    },
+                    value: year,
+                  ),
+                ],
+              ),
+              year == 'first' || year == 'second' || year == 'third'
+                  ? DropdownButton(
+                      hint: Text('specializations'),
+                      items: [
+                        'جراحة',
+                        'طب أسنان الأطفال',
+                        'أمراض الفم',
+                        'تقويم',
+                        'لثة',
+                        'تعويضات المتحركة',
+                        'تعويضات الثابتة',
+                        'تجميل',
+                        'لبية'
+                      ]
+                          .map((e) =>
+                              DropdownMenuItem(child: Text('$e'), value: e))
+                          .toList(),
+                      onChanged: (val) {
+                        setState(() {
+                          specializations = val!;
+                        });
+                      },
+                      value: specializations,
+                    )
+                  : SizedBox(),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await post()();
+                  },
+                  child: isLoading == true
+                      ? CircularProgressIndicator(
+                          color: Color(white),
+                        )
+                      : Text(
+                          'Sign up',
+                          style: TextStyle(color: Color(white), fontSize: 17),
+                        ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40)),
+                      backgroundColor: Color(NewDarkBlue),
+                      fixedSize: Size(220, 50)),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Get.to(StudentLoginScreen());
+                  },
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Color(newOrange), fontSize: 20),
+                  ))
+            ]),
+          )
+        ]),
+      ),
     );
   }
   // @override

@@ -47,8 +47,20 @@ class _StudentNewTaskState extends State<StudentNewTask> {
 
     if (response["message"] == "your task has been added successfully ") {
       print("success");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Added successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     } else {
       print('error');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 

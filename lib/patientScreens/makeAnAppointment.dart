@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/constant/appColor.dart';
+import 'package:newstart/homePageForPatients.dart';
 import 'package:newstart/main.dart';
-import 'package:newstart/patientScreens/patient_home_page.dart';
 
 import '../component/getAndPost.dart';
 import '../constant/appliApis.dart';
@@ -26,7 +26,7 @@ class _MAkeAnAppointmentState extends State<MAkeAnAppointment> {
 
   late PatientAppointmentInformation patientAppointmentInformation;
 
-  _makeAppointment() async {
+  makeAppointment() async {
     isLoading = true;
     setState(() {});
     var response = await getPost.postRequest(consultApi, {
@@ -43,9 +43,21 @@ class _MAkeAnAppointmentState extends State<MAkeAnAppointment> {
     if (response['message'] == "Consultation request added successfully") {
       print("appointment added");
       //patientSharedPreferences.setString('key', value)
-      Get.off(PatientHomePage());
+      Get.off(HomePageForPatients());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Done",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     } else {
       print('appointment error');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 
@@ -53,105 +65,114 @@ class _MAkeAnAppointmentState extends State<MAkeAnAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(background2),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 300, top: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                Get.off(PatientHomePage());
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(newOrange),
+      backgroundColor: Color(white),
+      body: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30, right: 300),
+                child: IconButton(
+                    onPressed: () {
+                      Get.off(HomePageForPatients());
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                    )),
               ),
-              child: Icon(Icons.arrow_back),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 100, top: 20),
-            //Make an appointment
-            child: Text('47'.tr,
-                style: TextStyle(
-                    fontFamily: 'cookie', color: Colors.black, fontSize: 35)),
-          ),
-          Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, top: 50),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: descriptionController,
-                      validator: (val) {},
-                      decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.description_outlined,
-                            color: Color(navyBlue),
-                            size: 30,
-                          ),
-                          //description
-                          hintText: "22".tr,
-                          hintStyle: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.w300),
-                          border: InputBorder.none),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                      controller: phoneNumberController,
-                      validator: (val) {},
-                      decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.phone_rounded,
-                            color: Color(navyBlue),
-                            size: 30,
-                          ),
-                          //phone number
-                          hintText: "39".tr,
-                          hintStyle: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.w300),
-                          border: InputBorder.none),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 0, right: 20),
+                child: Text(
+                  'Make an appointment',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
                 ),
-              )),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: () async {
-              await _makeAppointment();
-            },
-            //confirm
-            child: Text('19'.tr),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Color(newOrange),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 120)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 220, top: 70),
+                child: Text(
+                  'Description:',
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 350,
+                height: 50,
+                child: TextFormField(
+                  controller: descriptionController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    hintText: "description",
+                    //enabledBorder: OutlineInputBorder()
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 220, top: 40),
+                child: Text(
+                  'Phone number:',
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 350,
+                height: 50,
+                child: TextFormField(
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    hintText: "+963 9........",
+                    //enabledBorder: OutlineInputBorder()
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await makeAppointment();
+                  },
+                  child: isLoading == true
+                      ? CircularProgressIndicator(
+                          color: Color(white),
+                        )
+                      : Text(
+                          'Confirm',
+                          style: TextStyle(color: Color(white), fontSize: 19),
+                        ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40)),
+                      backgroundColor: Color(newOrange),
+                      fixedSize: Size(250, 50)),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
-              Get.off(PatientHomePage());
-            },
-            //Cancel
-            child: Text('20'.tr),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Color(grey),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 120)),
-          ),
-        ],
+        ),
       ),
     );
   }

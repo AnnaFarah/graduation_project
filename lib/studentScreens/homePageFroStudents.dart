@@ -4,23 +4,23 @@ import 'package:newstart/Controller/changeDate.dart';
 import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/constant/appColor.dart';
 import 'package:newstart/constant/appliApis.dart';
-import 'package:newstart/showStudentPreRequests.dart';
 import 'package:newstart/store/getProducts.dart';
 import 'package:newstart/student/notificationsstudent.dart';
 import 'package:newstart/student/requestInfo.dart';
 import 'package:newstart/studentScreens/consultationPatients.dart';
-import 'package:newstart/studentScreens/myPatients.dart';
+import 'package:newstart/studentScreens/getPatients.dart';
+import 'package:newstart/studentScreens/getStudentRequests.dart';
 import 'package:newstart/studentScreens/showAllTasks.dart';
 import 'package:newstart/studentScreens/showPersoonalWork.dart';
 import 'package:newstart/studentScreens/studentRequest.dart';
 import 'package:newstart/studentScreens/studentShowCalendar.dart';
 import 'package:newstart/studentScreens/studentShowProfile.dart';
 
+import '../chat/views/chat_view_patients.dart';
 import '../choseLoginType.dart';
+import '../lab/getAvailableTime.dart';
 import '../locale/local_controller.dart';
 import '../main.dart';
-import 'chat/views/chat_view_patients.dart';
-import 'lab/getAvailableTime.dart';
 
 class HomePageForStudents extends StatefulWidget {
   @override
@@ -65,48 +65,74 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
     return Scaffold(
       backgroundColor: Color(white),
       drawer: Drawer(
-        backgroundColor: Color(newDarkBlue),
+        backgroundColor: Color(NewDarkBlue),
         child: Padding(
-          padding: const EdgeInsets.only(top: 60),
+          padding: const EdgeInsets.only(top: 100),
           child: Column(children: [
             Row(
               children: [
+                SizedBox(
+                  width: 30,
+                ),
                 Icon(Icons.person_2_outlined, color: Colors.white, size: 30),
+                SizedBox(
+                  width: 20,
+                ),
                 TextButton(
                     onPressed: () {
                       Get.off(StudentProfile());
                     },
                     child: Text('7'.tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                        )))
+                        style: TextStyle(color: Colors.white, fontSize: 17)))
               ],
             ),
             Row(
               children: [
+                SizedBox(
+                  width: 30,
+                ),
                 Icon(Icons.logout_outlined, color: Colors.white, size: 30),
+                SizedBox(
+                  width: 20,
+                ),
                 TextButton(
                     onPressed: () {
                       studentSharedPreferences.clear();
                       Get.off(ChoseLoginType());
                     },
                     child: Text('8'.tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                        )))
+                        style: TextStyle(color: Colors.white, fontSize: 17)))
               ],
             ),
-            Text('9'.tr),
+            SizedBox(
+              height: 40,
+            ),
+            Text('9'.tr, style: TextStyle(color: Color(white), fontSize: 16)),
+            SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  backgroundColor: Color(white),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                ),
                 onPressed: () {
                   controllerLang.changeLanguage('ar');
                 },
-                child: Text('10'.tr)),
+                child:
+                    Text('10'.tr, style: TextStyle(color: Color(NewDarkBlue)))),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  backgroundColor: Color(white),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                ),
                 onPressed: () {
                   controllerLang.changeLanguage('en');
                 },
-                child: Text('11'.tr)),
+                child:
+                    Text('11'.tr, style: TextStyle(color: Color(NewDarkBlue)))),
           ]),
         ),
       ),
@@ -187,6 +213,7 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
                 height: 150,
                 decoration: BoxDecoration(
                     color: Color(0xffDDE9F8),
+                    //border: Border.all(),
                     borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
@@ -246,30 +273,8 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
                         fontWeight: FontWeight.w500),
                   ),
                   TextButton(
-                      onPressed: () async {
-                        await getMyRequets();
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                title: Text(
-                                  'My request:',
-                                  style: TextStyle(color: Color(NewDarkBlue)),
-                                ),
-                                content: myRequest.isEmpty
-                                    ? Text('No request')
-                                    : ListView.builder(
-                                        itemCount: myRequest.length,
-                                        itemBuilder: (context, i) {
-                                          RequestInfo requestInfo = RequestInfo(
-                                              id: myRequest[i]['id'],
-                                              priority: myRequest[i]
-                                                  ['priority'],
-                                              specialization: myRequest[i]
-                                                  ['specializations'],
-                                              year: myRequest[i]['year']);
-                                          return ShowStudentPreRequests(
-                                              requestInfo: requestInfo);
-                                        })));
+                      onPressed: () {
+                        Get.to(GetStudentRequest());
                       },
                       child: Text(
                         'Check it',
@@ -328,7 +333,7 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
                         SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () {
-                            Get.to(MyPatients());
+                            Get.to(GetPatients());
                           },
                           child: Column(
                             children: [

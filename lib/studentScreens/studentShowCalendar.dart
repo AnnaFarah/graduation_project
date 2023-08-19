@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/store/getProducts.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/calendars.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../component/getAndPost.dart';
 import '../constant/appColor.dart';
@@ -25,7 +26,7 @@ class _ShowStudentCalendarState extends State<ShowStudentCalendar> {
 
   GetPost getPost = GetPost();
 
-  getAppointmentsOnCalendar() async {
+  Future<void> getAppointmentsOnCalendar() async {
     isLoading = true;
     setState(() {});
     var responseBody = await getPost.getRequest(showAllCalendar, {
@@ -59,8 +60,22 @@ class _ShowStudentCalendarState extends State<ShowStudentCalendar> {
 
     if (response['message'] == 'your calendar has been deleted successfully') {
       print('flutter: success deleting from calendar');
+      posts.clear();
+      getAppointmentsOnCalendar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Deleted successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     } else {
       print('flutter: error deleting from calendar');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong.",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 
@@ -73,33 +88,57 @@ class _ShowStudentCalendarState extends State<ShowStudentCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(background2),
-      appBar: AppBar(
-          backgroundColor: Color(navyBlue),
-          title: Text(
-            '41'.tr,
-            style: TextStyle(
-                fontFamily: 'cookie', color: Colors.white, fontSize: 40),
+      backgroundColor: Color(white),
+      body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Center(
+                child: Text(
+                  'My calendar',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              posts.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 210),
+                      child: Center(
+                        child: Text('Empty',
+                            style: TextStyle(
+                                fontSize: 25, color: Colors.grey.shade700)),
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                          itemCount: posts.length,
+                          itemBuilder: (context, i) {
+                            Calendar calendar = Calendar(
+                                id: posts[i]['id'],
+                                date: posts[i]['date'],
+                                time: posts[i]['time'],
+                                type: posts[i]['type'],
+                                day: posts[i]['day'],
+                                patientID: posts[i]['patient_id'],
+                                studentID: posts[i]['student_id']);
+                            return Calendars(
+                              calendar: calendar,
+                              posts: posts,
+                              getAppointmentsOnCalendar:
+                                  getAppointmentsOnCalendar,
+                            );
+                          }),
+                    ),
+            ],
           )),
-      body: posts.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : Form(
-              key: formKey,
-              child: ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, i) {
-                    Calendar calendar = Calendar(
-                        id: posts[i]['id'],
-                        date: posts[i]['date'],
-                        time: posts[i]['time'],
-                        type: posts[i]['type'],
-                        day: posts[i]['day'],
-                        patientID: posts[i]['patient_id'],
-                        studentID: posts[i]['student_id']);
-                    return EditCalendarItem(
-                        calendar: calendar,
-                        deleteFromCalendar: deleteFromCalendar);
-                  })),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         selectedLabelStyle: TextStyle(color: Color(darkBlue)),
@@ -107,7 +146,7 @@ class _ShowStudentCalendarState extends State<ShowStudentCalendar> {
           setState(() {
             currentIndex = value;
             if (currentIndex == 0) {
-              Get.off(HomePageS());
+              Get.off(HomePageForStudents());
             } else if (currentIndex == 1) {
               Get.off(ShowStudentCalendar());
             } else if (currentIndex == 2) {
@@ -139,7 +178,7 @@ class _ShowStudentCalendarState extends State<ShowStudentCalendar> {
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'icons/teeth-open.png',
+              'icons/teeth-open1.png',
               height: 25,
             ),
             label: 'X-ray',

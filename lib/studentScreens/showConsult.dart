@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newstart/studentScreens/student_home_page.dart';
+import 'package:newstart/studentScreens/homePageFroStudents.dart';
 
 import '../constant/appColor.dart';
 
@@ -12,7 +12,7 @@ class ShowConsult extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Get.off(HomePageS());
+            Get.off(HomePageForStudents());
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(newOrange),

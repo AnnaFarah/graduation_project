@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/constant/appColor.dart';
+import 'package:newstart/homePageForPatients.dart';
 import 'package:newstart/patientClasses/patientProfile.dart';
 import 'package:newstart/patientScreens/patientUpdateProfile.dart';
-import 'package:newstart/patientScreens/patient_home_page.dart';
 
-import '../choseLoginType.dart';
 import '../constant/appliApis.dart';
 import '../main.dart';
 
@@ -261,10 +260,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
           setState(() {
             currentIndex = value;
             if (currentIndex == 0) {
-              Get.off(PatientHomePage());
-            } else if (currentIndex == 3) {
-              patientSharedPreferences.clear();
-              Get.off(ChoseLoginType());
+              Get.off(HomePageForPatients());
             }
           });
         },
@@ -278,20 +274,6 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person_2_outlined,
-              color: Color(navyBlue),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications_none_outlined,
-              color: Color(navyBlue),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.logout_outlined,
               color: Color(navyBlue),
             ),
             label: '',

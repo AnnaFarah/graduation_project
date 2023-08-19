@@ -69,38 +69,39 @@ class _ScrollListState extends State<ScrollList> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(newDarkBlue),
+      backgroundColor: Color(NewDarkBlue),
       body: Column(
         children: [
           Expanded(
               child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: BoxDecoration(color: Color(newDarkBlue)),
+                  decoration: BoxDecoration(color: Color(NewDarkBlue)),
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Row(
+                      child: Column(
+                        //crossAxisAlignment: CrossAxisAlignment.start,
                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Get.off(ConsultationPatients());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(newOrange),
-                            ),
-                            child: Icon(Icons.arrow_back),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 330, top: 20),
+                            child: IconButton(
+                                onPressed: () {
+                                  Get.off(ConsultationPatients());
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: Color(white),
+                                  size: 30,
+                                )),
                           ),
                           SizedBox(
                             width: 50,
                           ),
                           Text(
                             '62'.tr,
-                            style: TextStyle(
-                                fontFamily: 'cookie',
-                                color: Colors.black,
-                                fontSize: 35),
+                            style: TextStyle(color: Color(white), fontSize: 25),
                           ),
                         ],
                       ),
@@ -112,7 +113,7 @@ class _ScrollListState extends State<ScrollList> {
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                    color: Color(newLightBeige),
+                    color: Color(white),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(50),
                       topRight: Radius.circular(50),
@@ -121,28 +122,45 @@ class _ScrollListState extends State<ScrollList> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      DropdownButton(
-                        hint: Text('قسم طب الفم'),
-                        items: [
-                          'قسم طب الفم',
-                          'قسم المداواة',
-                          'قسم جراحة الوجه والفكين',
-                          'قسم التعويضات المتحركة',
-                          'قسم علم نسج حول سنية',
-                          'قسم التقويم',
-                          'قسم التعويضات الثابتة',
-                          'قسم طب أسنان الأطفال'
-                        ]
-                            .map((e) =>
-                                DropdownMenuItem(child: Text('$e'), value: e))
-                            .toList(),
-                        onChanged: (val) async {
-                          setState(() {
-                            word = val.toString();
-                          });
-                          await getSecondList();
-                        },
-                        value: word,
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Specialization:',
+                            style: TextStyle(color: Colors.black, fontSize: 22),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          DropdownButton(
+                            hint: Text('قسم طب الفم'),
+                            items: [
+                              'قسم طب الفم',
+                              'قسم المداواة',
+                              'قسم جراحة الوجه والفكين',
+                              'قسم التعويضات المتحركة',
+                              'قسم علم نسج حول سنية',
+                              'قسم التقويم',
+                              'قسم التعويضات الثابتة',
+                              'قسم طب أسنان الأطفال'
+                            ]
+                                .map((e) => DropdownMenuItem(
+                                    child: Text('$e'), value: e))
+                                .toList(),
+                            onChanged: (val) async {
+                              setState(() {
+                                word = val.toString();
+                              });
+                              await getSecondList();
+                            },
+                            value: word,
+                          ),
+                        ],
                       ),
                       test == false
                           ? SizedBox()

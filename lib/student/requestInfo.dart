@@ -1,6 +1,6 @@
 class RequestInfo {
   final int id;
-  final String priority;
+  final String? priority;
   final String? specialization;
   final String? year;
 

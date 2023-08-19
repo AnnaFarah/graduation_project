@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
+import 'package:newstart/homePageForPatients.dart';
 import 'package:newstart/patientClasses/madicalInfo.dart';
-import 'package:newstart/patientScreens/patient_home_page.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
@@ -50,54 +50,51 @@ class _MedicalProfileState extends State<MedicalProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: medical.isEmpty
-            ? Text('30'.tr)
-            : Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Color(newLightBeige), Color(newDustyBlue)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)),
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 300, top: 20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.off(PatientHomePage());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(newOrange),
-                      ),
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 200, top: 20),
-                    child: Text('48'.tr,
-                        style: TextStyle(
-                            fontFamily: 'cookie',
-                            color: Colors.black,
-                            fontSize: 35)),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: medical.length,
-                        itemBuilder: (context, i) {
-                          MedicalInfo medicalInfo = MedicalInfo(
-                              id: medical[i]['id'],
-                              diseaseName: medical[i]['disease_name'],
-                              start: medical[i]['starting_date'],
-                              end: medical[i]['end_date'],
-                              patientID: medical[i]['patient_id'],
-                              studentID: medical[i]['student_id'],
-                              description: medical[i]['description']);
-                          return ShowMediacl(medicalInfo: medicalInfo);
-                        }),
-                  ),
-                ]),
-              ));
+        body: Column(children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 330, top: 30),
+        child: IconButton(
+          onPressed: () {
+            Get.off(HomePageForPatients());
+          },
+          icon: Icon(Icons.arrow_back),
+          color: Color(black),
+          iconSize: 35,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 150, top: 10),
+        child: Text(
+          'My medical profile:',
+          style: TextStyle(
+              color: Colors.black, fontSize: 28, fontWeight: FontWeight.w400),
+        ),
+      ),
+      medical.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(top: 210),
+              child: Center(
+                child: Text('Empty',
+                    style:
+                        TextStyle(fontSize: 25, color: Colors.grey.shade700)),
+              ),
+            )
+          : Expanded(
+              child: ListView.builder(
+                  itemCount: medical.length,
+                  itemBuilder: (context, i) {
+                    MedicalInfo medicalInfo = MedicalInfo(
+                        id: medical[i]['id'],
+                        diseaseName: medical[i]['disease_name'],
+                        start: medical[i]['starting_date'],
+                        end: medical[i]['end_date'],
+                        patientID: medical[i]['patient_id'],
+                        studentID: medical[i]['student_id'],
+                        description: medical[i]['description']);
+                    return ShowMediacl(medicalInfo: medicalInfo);
+                  }),
+            ),
+    ]));
   }
 }
 
