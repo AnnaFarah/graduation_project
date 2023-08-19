@@ -8,6 +8,7 @@ import 'package:newstart/patientScreens/appointments.dart';
 import 'package:newstart/patientScreens/makeAnAppointment.dart';
 import 'package:newstart/patientScreens/medicalProfile.dart';
 import 'package:newstart/patientScreens/patientProfileScreen.dart';
+import 'package:newstart/student/notificationspatient.dart';
 import 'package:newstart/student/notificationsstudent.dart';
 
 import 'chat/controllers/chat_with_admin_controller.dart';
@@ -136,7 +137,7 @@ class _HomePageForPatientsState extends State<HomePageForPatients> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Get.to(NotificationStudentView());
+                        Get.to(NotificationPatientView());
                       },
                       icon: Icon(Icons.notifications_none_sharp),
                       iconSize: 30,
