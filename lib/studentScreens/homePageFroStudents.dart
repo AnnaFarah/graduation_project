@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/Controller/changeDate.dart';
@@ -6,7 +8,6 @@ import 'package:newstart/constant/appColor.dart';
 import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/store/getProducts.dart';
 import 'package:newstart/student/notificationsstudent.dart';
-import 'package:newstart/student/requestInfo.dart';
 import 'package:newstart/studentScreens/consultationPatients.dart';
 import 'package:newstart/studentScreens/getPatients.dart';
 import 'package:newstart/studentScreens/getStudentRequests.dart';
@@ -62,6 +63,7 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
   @override
   Widget build(BuildContext context) {
     MyLocalController controllerLang = Get.find();
+    log(studentSharedPreferences!.getString('fcmToken')!);
     return Scaffold(
       backgroundColor: Color(white),
       drawer: Drawer(

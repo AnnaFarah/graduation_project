@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:newstart/chat/controllers/chat_with_admin_controller.dart';
 import 'package:newstart/main.dart';
 import 'package:newstart/student/myPatientsInfo.dart';
-import 'package:http/http.dart' as http;
+
 import '../../component/getAndPost.dart';
 import '../../constant/appColor.dart';
 import '../../constant/appliApis.dart';
@@ -104,14 +105,14 @@ class _ChatViewPatientsState extends State<ChatViewPatients> {
                           Get.put(ChatController());
                           Get.to(
                             ChatView(
-                              patient_id: listOfPatients[i]['id'],
+                              patient_id: listOfPatients[i]['user_id'],
                               doctor_id: int.parse(
                                   studentSharedPreferences.getString('id')!),
                               name: listOfPatients[i]['name'],
                               isDocotor: true,
                             ),
                             arguments: {
-                              'patient_id': listOfPatients[i]['id'],
+                              'patient_id': listOfPatients[i]['user_id'],
                               'doctor_id': int.parse(
                                   studentSharedPreferences.getString('id')!),
                               'name': listOfPatients[i]['name'],
