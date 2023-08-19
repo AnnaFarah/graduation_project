@@ -156,7 +156,12 @@ class _HomePageForPatientsState extends State<HomePageForPatients> {
                                 'Bearer ${patientSharedPreferences.getString('token')}'
                           },
                         );
-                        if (response.statusCode != 200) {
+                        inspect(
+                            jsonDecode((response.body))['data']['student_id']);
+                        // return;
+                        print(response.body.toString());
+                        if (response.statusCode != 200 &&
+                            jsonDecode(response.body)['data'] != null) {
                           showDialog(
                             context: context,
                             builder: (x) {
@@ -176,15 +181,16 @@ class _HomePageForPatientsState extends State<HomePageForPatients> {
                               patient_id: int.parse(
                                   patientSharedPreferences.getString('id')!),
                               doctor_id: jsonDecode((response.body))['data']
-                                  ['student_id'],
-                              name: patientSharedPreferences.getString('name')!,
+                                  ['students']['user_id'],
+                              name: (jsonDecode((response.body))['data']
+                                  ['students'])['name'],
                               isDocotor: false,
                             ),
                             arguments: {
                               'patient_id': int.parse(
                                   patientSharedPreferences.getString('id')!),
                               'doctor_id': jsonDecode((response.body))['data']
-                                  ['student_id'],
+                                  ['students']['user_id'],
                               'name':
                                   patientSharedPreferences.getString('name')!,
                               'isDoctor': false,
