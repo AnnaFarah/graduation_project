@@ -1,4 +1,4 @@
-const String url = 'http://10.0.2.2:8000';
+const String url = 'http://192.168.1.106:8000';
 //const String url = 'http://192.168.43.96:8000';
 
 //student

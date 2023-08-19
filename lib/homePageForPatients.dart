@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/Controller/changeDate.dart';
@@ -6,7 +8,11 @@ import 'package:newstart/patientScreens/appointments.dart';
 import 'package:newstart/patientScreens/makeAnAppointment.dart';
 import 'package:newstart/patientScreens/medicalProfile.dart';
 import 'package:newstart/patientScreens/patientProfileScreen.dart';
+import 'package:newstart/student/notificationspatient.dart';
+import 'package:newstart/student/notificationsstudent.dart';
 
+import 'chat/controllers/chat_with_admin_controller.dart';
+import 'chat/views/chat_view.dart';
 import 'choseLoginType.dart';
 import 'component/getAndPost.dart';
 import 'constant/appColor.dart';
@@ -130,12 +136,61 @@ class _HomePageForPatientsState extends State<HomePageForPatients> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(NotificationPatientView());
+                      },
                       icon: Icon(Icons.notifications_none_sharp),
                       iconSize: 30,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        var response = await http.get(
+                          Uri.parse(
+                            '${url}/api/FindOutMyStudentID',
+                          ),
+                          headers: {
+                            'Accept': 'application/json',
+                            'Authorization':
+                                'Bearer ${patientSharedPreferences.getString('token')}'
+                          },
+                        );
+                        if (response.statusCode != 200) {
+                          showDialog(
+                            context: context,
+                            builder: (x) {
+                              return Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: AlertDialog(
+                                  title: Text("عذراً"),
+                                  content: Text("لايوجد أطباء لهذا المريض"),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          Get.lazyPut(() => ChatController());
+                          Get.to(
+                            ChatView(
+                              patient_id: int.parse(
+                                  patientSharedPreferences.getString('id')!),
+                              doctor_id: jsonDecode((response.body))['data']
+                                  ['student_id'],
+                              name: patientSharedPreferences.getString('name')!,
+                              isDocotor: false,
+                            ),
+                            arguments: {
+                              'patient_id': int.parse(
+                                  patientSharedPreferences.getString('id')!),
+                              'doctor_id': jsonDecode((response.body))['data']
+                                  ['student_id'],
+                              'name':
+                                  patientSharedPreferences.getString('name')!,
+                              'isDoctor': false,
+                            },
+                          );
+                        }
+                        return;
+                      },
                       icon: Icon(Icons.chat_bubble_outline_outlined),
                       iconSize: 30,
                     ),

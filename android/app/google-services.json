@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "785926954999",
+    "project_id": "hollywood-smile-ac1e8",
+    "storage_bucket": "hollywood-smile-ac1e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785926954999:android:d2daa5ff7f492be47958f2",
+        "android_client_info": {
+          "package_name": "com.example.newstart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785926954999-hmc4f50i2elgf6oo8j843t52rovhmcmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxkrKfzi1TV7PyX04hcEw-MRMvX1F3rwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785926954999-hmc4f50i2elgf6oo8j843t52rovhmcmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,6 +8,7 @@ import 'package:newstart/studentScreens/studentSignup.dart';
 
 import '../constant/appColor.dart';
 import '../constant/appliApis.dart';
+import '../firebase-management/getFcmToken.dart';
 
 class StudentLoginScreen extends StatefulWidget {
   @override
@@ -47,6 +48,8 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
         studentSharedPreferences.setString('type', studentType);
         studentSharedPreferences.setString(
             'name', response['data']['name'].toString());
+        await registerOnFirebase(false);
+
         Get.off(HomePageForStudents());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");

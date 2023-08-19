@@ -5,6 +5,8 @@ import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/constant/appColor.dart';
 import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/store/getProducts.dart';
+import 'package:newstart/student/notificationsstudent.dart';
+import 'package:newstart/student/requestInfo.dart';
 import 'package:newstart/studentScreens/consultationPatients.dart';
 import 'package:newstart/studentScreens/getPatients.dart';
 import 'package:newstart/studentScreens/getStudentRequests.dart';
@@ -14,10 +16,11 @@ import 'package:newstart/studentScreens/studentRequest.dart';
 import 'package:newstart/studentScreens/studentShowCalendar.dart';
 import 'package:newstart/studentScreens/studentShowProfile.dart';
 
-import '../../choseLoginType.dart';
-import '../../locale/local_controller.dart';
-import '../../main.dart';
+import '../chat/views/chat_view_patients.dart';
+import '../choseLoginType.dart';
 import '../lab/getAvailableTime.dart';
+import '../locale/local_controller.dart';
+import '../main.dart';
 
 class HomePageForStudents extends StatefulWidget {
   @override
@@ -154,12 +157,16 @@ class _HomePageForStudentsState extends State<HomePageForStudents> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(NotificationStudentView());
+                        },
                         icon: Icon(Icons.notifications_none_sharp),
                         iconSize: 30,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(ChatViewPatients());
+                        },
                         icon: Icon(Icons.chat_bubble_outline_outlined),
                         iconSize: 30,
                       ),
