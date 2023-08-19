@@ -39,17 +39,16 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
       setState(() {});
 
       if (response["message"] == 'User signed in') {
-        var studentType = response['data']['students'][0]['type'];
-        print(studentType);
+        // var studentType = response['data']['students'][0]['type'];
+        // print(studentType);
         studentSharedPreferences.setString(
             'token', response['data']['token'].toString());
         studentSharedPreferences.setString(
             'id', response['data']['id'].toString());
-        studentSharedPreferences.setString('type', studentType);
+        // studentSharedPreferences.setString('type', studentType);
         studentSharedPreferences.setString(
             'name', response['data']['name'].toString());
         await registerOnFirebase(false);
-
         Get.off(HomePageForStudents());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");

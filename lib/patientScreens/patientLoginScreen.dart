@@ -50,7 +50,6 @@ class _patientLoginScreenState extends State<patientLoginScreen> {
             'name', response['data']['name'].toString());
         print(response);
         await registerOnFirebase(true);
-
         Get.off(HomePageForPatients());
       } else if (response["message"] == "Unauthorised.") {
         print("login catch error");
