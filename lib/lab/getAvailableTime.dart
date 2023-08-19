@@ -65,41 +65,64 @@ class _GetAvailableTimeState extends State<GetAvailableTime> {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${studentSharedPreferences.getString('token')}'
     });
+
+    isLoading = false;
+    setState(() {});
+
+    if (responseBody['message'] == 'Booked an appointment Done') {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Booked successfully",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error! something went wrong",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: availableTime.isEmpty
-          ? Text('No time'.toUpperCase())
-          : Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(newLightBeige), Color(newDustyBlue)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight)),
-                  child: Column(children: [
-                    Center(
-                      child: Text('Lab',
-                          style: TextStyle(
-                              fontFamily: 'cookie',
-                              color: Colors.black,
-                              fontSize: 45)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(
-                        color: Colors.grey.shade500,
-                        thickness: 1,
-                      ),
-                    ),
-                    Expanded(
+      body: Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Color(white),
+              child: Column(children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Center(
+                    child: Text('Lab',
+                        style: TextStyle(color: Colors.black, fontSize: 30)),
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 20, right: 20),
+                //   child: Divider(
+                //     color: Colors.grey.shade500,
+                //     thickness: 1,
+                //   ),
+                // ),
+                availableTime.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 210),
+                        child: Center(
+                          child: Text('Empty',
+                              style: TextStyle(
+                                  fontSize: 25, color: Colors.grey.shade700)),
+                        ),
+                      )
+                    : Expanded(
                         child: ListView.builder(
                             itemCount: availableTime.length,
                             itemBuilder: (context, i) {
@@ -111,9 +134,9 @@ class _GetAvailableTimeState extends State<GetAvailableTime> {
                               return ShowTime(
                                   timeInfo: timeInfo, register: register);
                             }))
-                  ]),
-                ),
-              )),
+              ]),
+            ),
+          )),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         selectedLabelStyle: TextStyle(color: Color(darkBlue)),

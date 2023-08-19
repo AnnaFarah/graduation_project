@@ -17,7 +17,7 @@ class _StudentRequestState extends State<StudentRequest> {
   //TextEditingController titleController = TextEditingController();
   //TextEditingController subjectController = TextEditingController();
   String priority = 'low';
-  String subject = 'أمراض فم 1';
+  String subject = 'قسم طب الفم';
   String specialization = 'طب أسنان الأطفال';
   var chosenID;
   List clinicalConditions = [];
@@ -217,7 +217,7 @@ class _StudentRequestState extends State<StudentRequest> {
                                   fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
-                              width: 50,
+                              width: 30,
                             ),
                             studentSharedPreferences.getString('type') ==
                                     'Master_Degree'
@@ -244,30 +244,20 @@ class _StudentRequestState extends State<StudentRequest> {
                                     },
                                     value: specialization,
                                   )
-                                : DropdownButton(
-                                    hint: Text('ترميمية'),
+                                : SizedBox(),
+                            studentSharedPreferences.getString('type') ==
+                                    'Bachelor_Degree'
+                                ? DropdownButton(
+                                    hint: Text('قسم طب الفم'),
                                     items: [
-                                      'أمراض فم 1',
-                                      'مداواة لبية1',
-                                      'تخدير وقلع1',
-                                      'تعويضات متحركة',
-                                      'أمراض نسج حول سنية',
-                                      'تقويم 1',
-                                      'ترميمية',
-                                      'أمراض فم 2',
-                                      'مداواة لبية2',
-                                      'تقويم 2',
-                                      'تخدير وقلع2',
-                                      'تعويضات متحركة',
-                                      'تعويضات ثابتة',
-                                      'طب أسنان أطفال',
-                                      'أمراض فم2',
-                                      'تخدير وقلع',
-                                      'تعويضات متحركة',
-                                      'مداواة لبية',
-                                      'تعويضات ثابتة',
-                                      'زرع',
-                                      'تقويم 3'
+                                      'قسم المداواة',
+                                      'قسم طب الفم',
+                                      'قسم جراحة الوجه والكفين',
+                                      'قسم التعويضات المتحركة',
+                                      'قسم علم نسج حول سنية',
+                                      'قسم التقويم',
+                                      'قسم طب أسنان الأطفال',
+                                      'قسم التعويضات الثابتة'
                                     ]
                                         .map((e) => DropdownMenuItem(
                                             child: Text('$e'), value: e))
@@ -278,7 +268,8 @@ class _StudentRequestState extends State<StudentRequest> {
                                       });
                                     },
                                     value: subject,
-                                  ),
+                                  )
+                                : SizedBox()
                           ]),
                           SizedBox(
                             height: 30,
@@ -310,9 +301,18 @@ class _StudentRequestState extends State<StudentRequest> {
                                       },
                                       value: year,
                                     )
-                                  : DropdownButton(
-                                      hint: Text('fourth'),
-                                      items: ['fourth', 'fifth']
+                                  : SizedBox(),
+                              studentSharedPreferences.getString('type') ==
+                                      'Bachelor_Degree'
+                                  ? DropdownButton(
+                                      hint: Text('forth'),
+                                      items: [
+                                        'first',
+                                        'second',
+                                        'third',
+                                        'forth',
+                                        'fifth'
+                                      ]
                                           .map((e) => DropdownMenuItem(
                                               child: Text('$e'), value: e))
                                           .toList(),
@@ -322,7 +322,8 @@ class _StudentRequestState extends State<StudentRequest> {
                                         });
                                       },
                                       value: year,
-                                    ),
+                                    )
+                                  : SizedBox()
                             ],
                           ),
                           SizedBox(
@@ -341,7 +342,10 @@ class _StudentRequestState extends State<StudentRequest> {
                                           backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
                                 )
-                              : Center(
+                              : SizedBox(),
+                          studentSharedPreferences.getString('type') ==
+                                  "Bachelor_Degree"
+                              ? Center(
                                   child: ElevatedButton(
                                       onPressed: () async {
                                         await getDisease(subject);
@@ -351,7 +355,8 @@ class _StudentRequestState extends State<StudentRequest> {
                                           shape: StadiumBorder(),
                                           backgroundColor: Color(newOrange),
                                           fixedSize: Size(250, 40))),
-                                ),
+                                )
+                              : SizedBox(),
                           gotConditions == true
                               ? Flexible(
                                   child: ListView.builder(

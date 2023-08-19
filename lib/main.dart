@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newstart/homePageForPatients.dart';
 import 'package:newstart/locale/local_controller.dart';
 import 'package:newstart/locale/locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'SplashScreen.dart';
 
 late SharedPreferences patientSharedPreferences;
 late SharedPreferences studentSharedPreferences;
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       translations: MyLocale(),
       debugShowCheckedModeBanner: false,
-      home: HomePageForPatients(),
+      home: SplashScreen(),
     );
   }
 }

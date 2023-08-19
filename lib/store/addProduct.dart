@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newstart/component/getAndPost.dart';
 import 'package:newstart/constant/appColor.dart';
-import 'package:newstart/constant/appliApis.dart';
 import 'package:newstart/store/getProducts.dart';
 
-import '../main.dart';
 import 'cart.dart';
 
 class AddProduct extends StatefulWidget {
@@ -30,46 +28,20 @@ class _AddProductState extends State<AddProduct> {
 
   GetPost getPost = GetPost();
 
-  buyProduct() async {
-    isLoading = true;
-    setState(() {});
-
-    var responseBody =
-        await getPost.postRequest('${url}/api/addOrder/${widget.id}', {
-      'Quantity': counter.toString()
-    }, {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${studentSharedPreferences.getString('token')}'
-    });
-
-    isLoading = false;
-    setState(() {});
-
-    if (responseBody['message'] == 'added Order Done') {
-      print('flutter: added product');
-      Get.off(GetStoreProducts());
-    } else {
-      print('flutter: error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(white),
       body: Padding(
         padding: const EdgeInsets.all(40),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 330, top: 0),
-            child: IconButton(
-              onPressed: () {
-                Get.off(GetStoreProducts());
-              },
-              icon: Icon(Icons.arrow_back),
-              color: Color(black),
-              iconSize: 35,
-            ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          IconButton(
+            onPressed: () {
+              Get.off(GetStoreProducts());
+            },
+            icon: Icon(Icons.arrow_back),
+            color: Color(black),
+            iconSize: 35,
           ),
           Image.network(
             widget.photo,
@@ -137,6 +109,13 @@ class _AddProductState extends State<AddProduct> {
                   "price": widget.price
                 };
                 MyCart.fullData.add(newProduct2);
+                Get.off(GetStoreProducts());
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Added successfully",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ));
               },
               child: Text(
                 'confirm',

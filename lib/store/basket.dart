@@ -20,6 +20,7 @@ class _BasketState extends State<Basket> {
   bool isLoading = false;
   GetPost getPost = GetPost();
   GlobalKey<FormState> formKey = GlobalKey();
+
   sendProducts() async {
     isLoading = true;
     setState(() {});
@@ -34,8 +35,22 @@ class _BasketState extends State<Basket> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      Get.off(GetStoreProducts());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Done",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+      MyCart.data.clear();
     } else {
       print(response.reasonPhrase);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Error? something went wrong",
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
     }
   }
 

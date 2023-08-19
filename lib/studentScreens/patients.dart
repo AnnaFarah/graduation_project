@@ -134,7 +134,7 @@ class _PatientsState extends State<Patients> {
                       )),
                   IconButton(
                     onPressed: () {
-                      Get.to(CalendarStudent(id: widget.myPatientsInfo.userID));
+                      Get.to(CalendarStudent(id: widget.myPatientsInfo.id));
                     },
                     icon: Image.asset(
                       'icons/calendar.png',
